@@ -1,5 +1,5 @@
 # Linux-Process-API-fork-wait-exec-
-Ex02-Linux Process API-fork(), wait(), exec()
+
 # Ex02-OS-Linux-Process API - fork(), wait(), exec()
 Operating systems Lab exercise
 
@@ -24,6 +24,7 @@ Test the C Program for the desired output.
 # PROGRAM:
 
 ## C Program to print process ID and parent Process ID using Linux API system calls
+
 ```
 #include <stdio.h>
 #include <sys/types.h>
@@ -42,7 +43,8 @@ int main(void)
 //printing the process ids
 	printf("The process id: %d\n",process_id);
 	printf("The process id of parent function: %d\n",p_process_id);
-	return 0; }
+	return 0; 
+}
 ```
 
 
@@ -54,11 +56,16 @@ int main(void)
 
 
 
-##OUTPUT
 
 
-![image](https://github.com/user-attachments/assets/9abe52c2-c970-4c43-99d7-ad280c0664a1)
 
+## OUTPUT
+
+
+![image](https://github.com/user-attachments/assets/d4a54287-81dd-4841-b053-7dfd409d796b)
+
+
+![image](https://github.com/user-attachments/assets/d8f838ac-1fd3-4191-9fc7-5af675344eaa)
 
 
 
@@ -71,28 +78,21 @@ int main(void)
 
 ## C Program to create new process using Linux API system calls fork() and exit()
 
+
 ```
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-int main() {
-    int pid;
-    pid = fork();
-    if (pid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0) {
-        printf("I am child, my pid is %d\n", getpid());
-        printf("My parent pid is: %d\n", getppid());
-        exit(EXIT_SUCCESS);
-    }
-    else {
-        printf("I am parent, my pid is %d\n", getpid());
-        sleep(100);
-        exit(EXIT_SUCCESS);
-    }
-    return 0;
+#include<stdlib.h>
+int main()
+{ int pid; 
+pid=fork(); 
+if(pid == 0) 
+{ printf("Iam child my pid is %d\n",getpid()); 
+printf("My parent pid is:%d\n",getppid()); 
+exit(0); } 
+else{ 
+printf("I am parent, my pid is %d\n",getpid()); 
+sleep(100); 
+exit(0);} 
 }
 ```
 
@@ -105,11 +105,11 @@ int main() {
 
 
 
+## OUTPUT
 
-##OUTPUT
+![image](https://github.com/user-attachments/assets/509bf362-cc6d-481d-beeb-d5c6a322d3a5)
+![image](https://github.com/user-attachments/assets/cc71d2cc-dbf2-479a-ac29-c95e67b89052)
 
-
-![image](https://github.com/user-attachments/assets/ed84065a-8323-402d-990f-9ad3dffecf09)
 
 
 
@@ -120,32 +120,28 @@ int main() {
 
 
 ```
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <sys/wait.h>
-#include <unistd.h>
-int main() {
-    pid_t pid = fork();
-    if (pid < 0) {
-        perror("Fork failed");
-        exit(EXIT_FAILURE);
-    } else if (pid == 0) {
-        printf("This is the child process. Executing 'ls' command.\n");
-        execl("/bin/ls", "ls", "-l", NULL); // Lists files in long format
-        perror("execl failed");
-        exit(EXIT_FAILURE);
-    } else {
-        int status;
-        waitpid(pid, &status, 0); // Wait for the child to finish
-        if (WIFEXITED(status)) {
-            printf("Child process exited with status %d.\n", WEXITSTATUS(status));
-        } else {
-            printf("Child process did not exit normally.\n");
-        }
-        printf("Parent process is done.\n");
-    }
-    return 0;
+#include <sys/types.h>
+int main()
+{       int status;
+        printf("Running ps with execlp\n");
+        execl("ps", "ps", "ax", NULL);
+        wait(&status);
+        if (WIFEXITED(status))
+                printf("child exited with status of %d\n", WEXITSTATUS(status));
+        else
+                puts("child did not exit successfully\n");
+        printf("Done.\n");
+        printf("Running ps with execlp. Now with path specified\n");
+        execl("/bin/ps", "ps", "ax", NULL);
+        wait(&status);
+        if (WIFEXITED(status))
+                printf("child exited with status of %d\n", WEXITSTATUS(status));
+        else
+                puts("child did not exit successfully\n");
+        printf("Done.\n");
+        exit(0);
 }
 ```
 
@@ -166,15 +162,22 @@ int main() {
 
 
 
-##OUTPUT
-
-![image](https://github.com/user-attachments/assets/33c1edda-69e0-4426-8cdb-2ce08604b2ae)
 
 
 
 
 
+## OUTPUT
 
+
+
+
+
+
+![image](https://github.com/user-attachments/assets/6731672a-2a34-4fdc-a2c3-d0c0f78e0320)
+
+
+![image](https://github.com/user-attachments/assets/27fdc194-a62d-4a3b-bdd7-0defce98b7df)
 
 
 
